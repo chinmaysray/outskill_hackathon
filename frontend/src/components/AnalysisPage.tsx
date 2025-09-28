@@ -4,7 +4,7 @@ import { useState, useCallback } from 'react'
 import { Container, Box, Typography, Alert, Fade, keyframes, alpha, useTheme } from '@mui/material'
 import ImageUpload from './ImageUpload'
 import AnalysisDashboard from './AnalysisDashboard'
-import { apiService } from '@/lib/api'
+import { apiService } from '@src/api'
 import { UploadState, AnalysisState, AnalysisRequest } from '@/types/analysis'
 
 function AnalysisPage() {
