@@ -67,6 +67,3 @@ settings = Settings()
 # - huggingface_hub (transformers) reads HUGGINGFACE_HUB_TOKEN
 if settings.huggingface_hub_token and not os.environ.get("HUGGINGFACE_HUB_TOKEN"):
     os.environ["HUGGINGFACE_HUB_TOKEN"] = settings.huggingface_hub_token
-
-#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
-#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
