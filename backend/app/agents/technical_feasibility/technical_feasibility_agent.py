@@ -30,30 +30,34 @@ class TechnicalFeasibilityAgent:
 
         try:
             # Technical analysis prompt
-            prompt = f"""Analyze this design for technical implementation feasibility:
+            prompt = f"""You are a senior technical architect. Critically evaluate this design for implementation feasibility, complexity, and performance.
 
-            **DEVELOPMENT COMPLEXITY:**
-            - Assess implementation difficulty (low/medium/high/very_high)
-            - Identify complex UI components
-            - Evaluate custom development needs
+            **DEVELOPMENT COMPLEXITY**
+            - Assess the overall difficulty of implementing this design (low/medium/high/very high).
+            - Identify any complex or custom UI components that may require special attention.
+            - Highlight potential development challenges and risks.
 
-            **TECHNOLOGY RECOMMENDATIONS:**
-            - Suitable frontend frameworks
-            - Backend requirements
-            - Database considerations
-            - Third-party integrations
+            **TECHNOLOGY RECOMMENDATIONS**
+            - Recommend suitable frontend frameworks, backend technologies, and database solutions for this design.
+            - Suggest relevant third-party integrations or tools.
 
-            **PERFORMANCE CONSIDERATIONS:**
-            - Loading time implications
-            - Mobile performance factors
-            - Scalability requirements
+            **PERFORMANCE & SCALABILITY**
+            - Evaluate expected loading times, mobile performance, and scalability requirements.
+            - Identify bottlenecks and areas for optimization.
 
-            **IMPLEMENTATION TIMELINE:**
-            - Estimated development phases
-            - Resource requirements
-            - Potential bottlenecks
+            **IMPLEMENTATION TIMELINE**
+            - Estimate development phases and resource requirements.
+            - Highlight potential bottlenecks and mitigation strategies.
 
-            Design context: {image_features.dimensions}, {len(image_features.ui_components)} UI components
+            **DESIGN CONTEXT**
+            Dimensions: {image_features.dimensions}, UI components: {len(image_features.ui_components)}
+
+            **ACTIONABLE FEEDBACK**
+            - Provide specific scores (1-10) for complexity, technology fit, and performance.
+            - List at least three concrete recommendations to improve technical feasibility.
+            - Highlight strengths and weaknesses.
+
+            Format your response as a structured report for easy parsing.
             """
 
             response = await self.client.code_analysis(

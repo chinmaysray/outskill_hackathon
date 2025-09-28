@@ -17,6 +17,10 @@ class Settings(BaseSettings):
     openrouter_api_key: str
     openrouter_base_url: str = "https://openrouter.ai/api/v1"
 
+    # Hugging Face Configuration
+    huggingface_hub_token: Optional[str] = None
+
+
     # LLM Models
     default_vision_model: str = "meta-llama/llama-3.2-11b-vision-instruct"
     default_text_model: str = "anthropic/claude-3-5-sonnet-20241022"
@@ -53,7 +57,16 @@ class Settings(BaseSettings):
     rate_limit_period: int = 60  # seconds
 
     class Config:
+        # When running from backend dir, this points to repo root .env
         env_file = "../.env"
         case_sensitive = False
 
 settings = Settings()
+
+# Bridge env var names for downstream libraries
+# - huggingface_hub (transformers) reads HUGGINGFACE_HUB_TOKEN
+# - langchain integrations may read HUGGINGFACEHUB_API_TOKEN
+if settings.huggingface_hub_token and not os.environ.get("HUGGINGFACEHUB_API_TOKEN"):
+    os.environ["HUGGINGFACEHUB_API_TOKEN"] = settings.huggingface_hub_token
+if settings.huggingfacehub_api_token and not os.environ.get("HUGGINGFACE_HUB_TOKEN"):
+    os.environ["HUGGINGFACE_HUB_TOKEN"] = settings.huggingfacehub_api_token

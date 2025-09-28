@@ -37,6 +37,7 @@ A cutting-edge AI-powered design analysis platform that leverages multiple speci
 
 ### Prerequisites
 - Docker and Docker Compose
+- Python 3.11 or 3.12 (Python 3.13 is not yet supported by several dependencies such as PyTorch; use 3.11/3.12 or Docker)
 - OpenRouter API key ([Get one here](https://openrouter.ai))
 - 8GB+ RAM recommended for AI models
 

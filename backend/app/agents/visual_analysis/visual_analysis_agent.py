@@ -119,54 +119,46 @@ class VisualAnalysisAgent:
         """Create comprehensive analysis prompt for vision model."""
 
         color_info = ", ".join([f"{c['role']}: {c['hex']}" for c in image_features.color_palette[:5]])
+        prompt = f"""You are a senior visual designer. Perform a comprehensive analysis of this image for design quality, clarity, and brand consistency.
 
-        prompt = f"""Please perform a comprehensive visual design analysis of this image. Focus on:
+        **COLOR ANALYSIS**
+        - Assess color harmony, accessibility, and contrast ratios.
+        - Analyze the detected color palette: {color_info}
+        - Rate color harmony and accessibility (1-10).
+        - Recommend improvements for color usage.
 
-**COLOR ANALYSIS:**
-- Evaluate the color harmony and scheme effectiveness
-- Assess color accessibility and contrast ratios
-- Analyze the detected color palette: {color_info}
-- Rate color harmony on a scale of 1-10
+        **TYPOGRAPHY**
+        - Evaluate font choices, readability, hierarchy, and consistency.
+        - Suggest improvements for typography and text contrast.
 
-**TYPOGRAPHY ASSESSMENT:**
-- Evaluate font choices and readability
-- Assess text hierarchy and spacing
-- Analyze text-background contrast
-- Check for typography consistency
+        **LAYOUT & COMPOSITION**
+        - Assess visual balance, symmetry, and adherence to design principles (rule of thirds, golden ratio).
+        - Analyze whitespace usage and element spacing.
+        - Image dimensions: {image_features.dimensions['width']}x{image_features.dimensions['height']}
 
-**LAYOUT COMPOSITION:**
-- Evaluate visual balance and symmetry
-- Assess adherence to design principles (rule of thirds, golden ratio)
-- Analyze whitespace usage and element spacing
-- Image dimensions: {image_features.dimensions['width']}x{image_features.dimensions['height']}
+        **VISUAL HIERARCHY**
+        - Evaluate information hierarchy, visual flow, and user attention guidance.
+        - Analyze element prominence and emphasis.
 
-**VISUAL HIERARCHY:**
-- Assess information hierarchy clarity
-- Evaluate visual flow and user attention guidance
-- Analyze element prominence and emphasis
+        **UI COMPONENTS**
+        - Assess consistency, styling, and interaction design of {len(image_features.ui_components)} detected components.
 
-**UI COMPONENT ANALYSIS:**
-- Evaluate detected UI components: {len(image_features.ui_components)} components found
-- Assess component consistency and styling
-- Analyze interaction design elements
+        **ACCESSIBILITY**
+        - Check WCAG compliance, color contrast, and readability for users with disabilities.
 
-**ACCESSIBILITY COMPLIANCE:**
-- Check WCAG compliance indicators
-- Assess color contrast ratios
-- Evaluate readability for users with disabilities
+        **BRAND CONSISTENCY**
+        - Evaluate visual identity coherence and brand element integration.
 
-**BRAND CONSISTENCY:**
-- Evaluate visual identity coherence
-- Assess brand element integration
-- Analyze overall brand expression
+        **USER PREFERENCES**
+        {json.dumps(user_preferences, indent=2) if user_preferences else "No specific preferences provided"}
 
-**USER PREFERENCES CONTEXT:**
-{json.dumps(user_preferences, indent=2) if user_preferences else "No specific preferences provided"}
+        **ACTIONABLE FEEDBACK**
+        - Provide specific scores (1-10) for each major category.
+        - List at least three concrete recommendations to improve design quality.
+        - Highlight strengths and weaknesses.
 
-Please provide specific scores (1-10) for each major category and detailed improvement suggestions.
-Format your response as structured analysis that can be parsed for metrics and recommendations.
-"""
-
+        Format your response as a structured report for easy parsing.
+        """
         return prompt
 
     async def _parse_analysis_results(self, analysis_content: str, image_features: ImageFeatures) -> Dict[str, Any]:

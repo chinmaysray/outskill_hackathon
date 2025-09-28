@@ -123,98 +123,42 @@ class UXCritiqueAgent:
     def _create_ux_analysis_prompt(self, image_features: ImageFeatures, user_preferences: Dict[str, Any]) -> str:
         """Create comprehensive UX analysis prompt."""
 
-        prompt = f"""Please perform a comprehensive UX critique analysis of this interface design. 
+        prompt = f"""You are a senior UX designer. Perform a comprehensive critique of this interface design using Nielsen's 10 Usability Heuristics and modern UX best practices.
 
-Evaluate based on Nielsen's 10 Usability Heuristics:
+        **USABILITY HEURISTICS**
+        1. Visibility of System Status
+        2. Match Between System and Real World
+        3. User Control and Freedom
+        4. Consistency and Standards
+        5. Error Prevention
+        6. Recognition Rather Than Recall
+        7. Flexibility and Efficiency of Use
+        8. Aesthetic and Minimalist Design
+        9. Error Recognition and Recovery
+        10. Help and Documentation
 
-**1. VISIBILITY OF SYSTEM STATUS**
-- Are interactive elements clearly identifiable?
-- Is the current state/location obvious to users?
-- Are loading states and feedback appropriately shown?
+        For each heuristic, assess strengths, weaknesses, and provide a score (1-10).
 
-**2. MATCH BETWEEN SYSTEM AND REAL WORLD**
-- Does the design use familiar conventions and metaphors?
-- Is the language user-friendly and jargon-free?
-- Do icons and symbols follow real-world conventions?
+        **ADDITIONAL UX ANALYSIS**
+        - Information Architecture: clarity, organization, navigation patterns.
+        - Interaction Design: touch targets, feedback, purposeful animations.
+        - Accessibility: color contrast, keyboard navigation, screen reader compatibility, motor accessibility.
+        - Mobile Responsiveness: touch target sizes, thumb-friendly navigation, scaling and layout.
+        - User Journey: task flow clarity, friction points, conversion optimization.
 
-**3. USER CONTROL AND FREEDOM**
-- Can users easily navigate and undo actions?
-- Are there clear exit options?
-- Can users control their experience?
+        **CONTEXT**
+        Image dimensions: {image_features.dimensions['width']}x{image_features.dimensions['height']}
+        Detected UI components: {len(image_features.ui_components)} elements
+        Text elements found: {len(image_features.text_elements)}
+        User preferences: {json.dumps(user_preferences, indent=2) if user_preferences else "None specified"}
 
-**4. CONSISTENCY AND STANDARDS**
-- Is the design internally consistent?
-- Does it follow platform conventions?
-- Are similar elements styled consistently?
+        **ACTIONABLE FEEDBACK**
+        - Provide specific scores (1-10) for each heuristic and category.
+        - List at least three concrete recommendations to improve UX.
+        - Highlight strengths and weaknesses.
 
-**5. ERROR PREVENTION**
-- Does the design prevent user errors?
-- Are potentially destructive actions confirmed?
-- Are form validations helpful and proactive?
-
-**6. RECOGNITION RATHER THAN RECALL**
-- Are options and actions visible?
-- Is navigation intuitive without memorization?
-- Are important elements easily recognizable?
-
-**7. FLEXIBILITY AND EFFICIENCY OF USE**
-- Are there shortcuts for experienced users?
-- Can the interface accommodate different skill levels?
-- Is the design efficient for common tasks?
-
-**8. AESTHETIC AND MINIMALIST DESIGN**
-- Is the design clean and uncluttered?
-- Are only essential elements prominent?
-- Is visual hierarchy clear and purposeful?
-
-**9. ERROR RECOGNITION AND RECOVERY**
-- Are error messages clear and helpful?
-- Do they suggest solutions?
-- Can users easily recover from errors?
-
-**10. HELP AND DOCUMENTATION**
-- Is help accessible when needed?
-- Are complex interactions self-explanatory?
-- Is guidance contextual and useful?
-
-**ADDITIONAL UX ANALYSIS:**
-
-**Information Architecture:**
-- How clear is the information hierarchy?
-- Is content organization logical and intuitive?
-- Are navigation patterns consistent?
-
-**Interaction Design:**
-- Are interactive elements appropriately sized for touch?
-- Is feedback immediate and appropriate?
-- Are animations and transitions purposeful?
-
-**Accessibility Assessment:**
-- Color contrast and readability
-- Keyboard navigation support
-- Screen reader compatibility
-- Motor accessibility considerations
-
-**Mobile Responsiveness:**
-- Touch target sizes (minimum 44px)
-- Thumb-friendly navigation
-- Appropriate scaling and layout
-
-**User Journey Analysis:**
-- Primary task flow clarity
-- Potential friction points
-- Conversion optimization opportunities
-
-**CONTEXT:**
-Image dimensions: {image_features.dimensions['width']}x{image_features.dimensions['height']}
-Detected UI components: {len(image_features.ui_components)} elements
-Text elements found: {len(image_features.text_elements)}
-User preferences: {json.dumps(user_preferences, indent=2) if user_preferences else "None specified"}
-
-Provide specific scores (1-10) for each heuristic and detailed recommendations for improvement.
-Focus on actionable insights that can enhance user experience.
-"""
-
+        Format your response as a structured report for easy parsing.
+        """
         return prompt
 
     async def _parse_ux_analysis_results(self, analysis_content: str, image_features: ImageFeatures) -> Dict[str, Any]:

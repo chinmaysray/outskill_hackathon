@@ -29,35 +29,40 @@ class BrandAlignmentAgent:
         start_time = asyncio.get_event_loop().time()
 
         try:
-            # Brand analysis prompt
+            # Improved brand analysis prompt
             color_palette = ", ".join([c["hex"] for c in image_features.color_palette[:5]])
 
-            prompt = f"""Analyze this design for brand alignment and consistency:
+            prompt = f"""You are a brand identity expert. Critically evaluate this design for alignment with brand guidelines and overall brand consistency.
 
-            **BRAND GUIDELINES COMPLIANCE:**
+            **BRAND GUIDELINES**
             {json.dumps(brand_guidelines, indent=2) if brand_guidelines else "No brand guidelines provided"}
+            - Identify any deviations from the guidelines.
+            - Suggest corrections for non-compliant elements.
 
-            **COLOR ANALYSIS:**
-            - Current palette: {color_palette}
-            - Brand color consistency
-            - Color psychology alignment
+            **COLOR ANALYSIS**
+            - Palette detected: {color_palette}
+            - Assess consistency with brand colors and psychological impact.
+            - Rate color harmony and accessibility (1-10).
+            - Recommend improvements for color usage.
 
-            **TYPOGRAPHY ASSESSMENT:**
-            - Font choice alignment with brand personality
-            - Hierarchy consistency
-            - Readability and brand voice
+            **TYPOGRAPHY**
+            - Evaluate font choices for brand personality fit, hierarchy, and readability.
+            - Identify inconsistencies or areas for improvement.
 
-            **VISUAL IDENTITY EVALUATION:**
-            - Logo placement and sizing
-            - Brand element integration
-            - Overall brand expression strength
+            **VISUAL IDENTITY**
+            - Analyze logo placement, sizing, and integration of brand elements.
+            - Assess overall brand expression and visual coherence.
 
-            **BRAND MESSAGE COHERENCE:**
-            - Design-brand message alignment
-            - Target audience appropriateness
-            - Brand personality reflection
+            **BRAND MESSAGE**
+            - Judge how well the design communicates the brand’s message and personality.
+            - Consider target audience appropriateness.
 
-            Provide specific scores and actionable recommendations.
+            **ACTIONABLE FEEDBACK**
+            - Provide specific scores (1-10) for each category.
+            - List at least three concrete recommendations to improve brand alignment.
+            - Highlight strengths and weaknesses.
+
+            Format your response as a structured report for easy parsing.
             """
 
             response = await self.client.vision_analysis(

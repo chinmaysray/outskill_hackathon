@@ -29,25 +29,32 @@ class MarketResearchAgent:
         start_time = asyncio.get_event_loop().time()
 
         try:
-            # Market analysis prompt
-            prompt = f"""Analyze this design from a market perspective:
+            # Improved market analysis prompt
+            prompt = f"""You are a market research expert. Critically evaluate this design for market fit, competitiveness, and trend alignment.
 
-            **COMPETITIVE ANALYSIS:**
-            - Identify design patterns and trends
-            - Compare against industry standards
-            - Assess competitive positioning
+            **COMPETITIVE ANALYSIS**
+            - Identify relevant design patterns and trends in the context of this product.
+            - Compare the design against current industry standards and best practices.
+            - Assess the competitive positioning and differentiation of this design.
 
-            **MARKET TRENDS:**
-            - Current design trends relevance
-            - Industry-specific considerations
-            - Target audience alignment
+            **MARKET TRENDS**
+            - Evaluate the relevance of the design to current market trends and industry-specific needs.
+            - Consider how well the design aligns with the expectations of the target audience.
 
-            **BENCHMARKING:**
-            - Design maturity assessment
-            - Market differentiation potential
-            - Competitive advantages/disadvantages
+            **BENCHMARKING**
+            - Assess the design's maturity and readiness for market launch.
+            - Identify unique selling points and areas for improvement.
+            - Highlight competitive advantages and disadvantages.
 
-            User context: {json.dumps(user_preferences)}
+            **USER CONTEXT**
+            {json.dumps(user_preferences, indent=2) if user_preferences else "No user preferences provided"}
+
+            **ACTIONABLE FEEDBACK**
+            - Provide specific scores (1-10) for competitiveness, trend alignment, and market fit.
+            - List at least three concrete recommendations to improve market positioning.
+            - Highlight strengths and weaknesses.
+
+            Format your response as a structured report for easy parsing.
             """
 
             response = await self.client.vision_analysis(
