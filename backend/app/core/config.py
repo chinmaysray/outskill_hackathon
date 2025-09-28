@@ -65,8 +65,5 @@ settings = Settings()
 
 # Bridge env var names for downstream libraries
 # - huggingface_hub (transformers) reads HUGGINGFACE_HUB_TOKEN
-# - langchain integrations may read HUGGINGFACEHUB_API_TOKEN
-if settings.huggingface_hub_token and not os.environ.get("HUGGINGFACEHUB_API_TOKEN"):
-    os.environ["HUGGINGFACEHUB_API_TOKEN"] = settings.huggingface_hub_token
-if settings.huggingfacehub_api_token and not os.environ.get("HUGGINGFACE_HUB_TOKEN"):
-    os.environ["HUGGINGFACE_HUB_TOKEN"] = settings.huggingfacehub_api_token
+if settings.huggingface_hub_token and not os.environ.get("HUGGINGFACE_HUB_TOKEN"):
+    os.environ["HUGGINGFACE_HUB_TOKEN"] = settings.huggingface_hub_token
