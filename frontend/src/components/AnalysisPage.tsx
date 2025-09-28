@@ -4,7 +4,7 @@ import { useState, useCallback } from 'react'
 import { Container, Box, Typography, Alert, Fade, keyframes, alpha, useTheme } from '@mui/material'
 import ImageUpload from './ImageUpload'
 import AnalysisDashboard from './AnalysisDashboard'
-import { apiService } from '@src/api'
+import { apiService } from '../api/api'
 import { UploadState, AnalysisState, AnalysisRequest } from '@/types/analysis'
 
 function AnalysisPage() {
@@ -51,7 +51,7 @@ function AnalysisPage() {
       }
 
       // Start streaming the analysis directly
-      await apiService.streamAnalysis(request, (event) => {
+      await apiService.streamAnalysis(request, (event: { event_type: string; data: any }) => {
         console.log('Received event:', event)
         
         switch (event.event_type) {
